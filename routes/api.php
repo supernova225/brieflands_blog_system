@@ -25,3 +25,6 @@ Route::get('users', [\App\Http\Controllers\API\User\ListUserController::class, '
 Route::delete('users/{user?}', [\App\Http\Controllers\API\User\DeleteUserController::class, 'delete']);
 Route::put('user/change-password/{user?}', [\App\Http\Controllers\API\User\ChangePasswordUserController::class, 'changePassword']);
 
+// Blogs
+Route::apiResource('/posts', \App\Http\Controllers\Post\PostController::class);
+
