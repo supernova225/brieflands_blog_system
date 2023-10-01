@@ -87,7 +87,7 @@ class PostController extends Controller
         $user = auth()->user();
 
         if ($request->publication_date < now()) {
-            throw new \DateException('تاریخ انتشار وارد شده نباید کمتر از تاریخ حال باشد.');
+            throw new \DateException(__('posts.exceptions.wrong_publication_date'));
         }
 
         $post = $user->posts()->create([
@@ -121,11 +121,13 @@ class PostController extends Controller
      * @bodyParam publication_date date
      *
      *
-     *
-     *
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
+        if ($request->publication_date < now()) {
+            throw new \DateException(__('posts.exceptions.wrong_publication_date'));
+        }
+
         $post->update([
             'title' => $request->title,
             'main_content' => $request->main_content,
@@ -133,7 +135,7 @@ class PostController extends Controller
             'is_published' => $request->publication_date ? 0 : 1,
         ]);
 
-        return response(['message' => 'پست مورد نظر ویرایش شد.']);
+        return response(__('posts.messages.update'));
     }
 
     /**
@@ -148,6 +150,6 @@ class PostController extends Controller
     {
         $post->delete();
 
-        return response(['message' => 'پست مورد نظر با موفقیت حذف شد.']);
+        return response(__('posts.messages.delete'));
     }
 }
