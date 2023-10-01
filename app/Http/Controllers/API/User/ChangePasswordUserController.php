@@ -23,20 +23,18 @@ class ChangePasswordUserController extends Controller
      *
      *
      */
-    public function changePassword(ChangePasswordUserRequest $request, User $user = null)
+    public function changePassword(ChangePasswordUserRequest $request)
     {
-        if (!$user) {
-            $user = auth()->user();
-        }
+        $user = auth()->id();
 
         if (Hash::check($request->old_password, $user->password)) {
             $user->update([
                 'password' => $request->new_password,
             ]);
 
-            return response(['message' => 'رمز عبور کاربر با موفقیت ویرایش شد.']);
+            return response(['message' => __('passwords.reset')]);
         }
 
-        throw new \InvalidArgumentException('رمز وارد شده درست نمی‌باشد.');
+        throw new \InvalidArgumentException(__('auth.failed'));
     }
 }

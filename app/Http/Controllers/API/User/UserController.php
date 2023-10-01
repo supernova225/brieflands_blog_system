@@ -15,6 +15,11 @@ use Illuminate\Http\Request;
  */
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(User::class, 'user');
+    }
+
     /**
      * Users List
      *
@@ -28,6 +33,8 @@ class UserController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny');
+
         $limit = \request('limit', 10);
 
         $page = \request('page', 1);
@@ -97,6 +104,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $this->authorize('view');
+
         return new UserResource($user);
     }
 
@@ -111,6 +120,8 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
+        $this->authorize('update', $user);
+
         $user->update([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -129,6 +140,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $this->authorize('delete', $user);
+
         $user->delete();
 
         return response(['message' => 'کاربر مورد نظر با موفقیت حذف شد.']);
