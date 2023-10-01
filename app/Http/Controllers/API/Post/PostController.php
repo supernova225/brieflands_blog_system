@@ -95,10 +95,6 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        if ($request->publication_date && $request->publication_date < now()) {
-            throw new \DateException(__('posts.exceptions.wrong_publication_date'));
-        }
-
         $post = auth()->user()->posts()->create([
             'title' => $request->title,
             'main_content' => $request->main_content,
