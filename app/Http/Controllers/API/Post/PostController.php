@@ -95,13 +95,11 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        $user = auth()->user();
-
         if ($request->publication_date < now()) {
             throw new \DateException(__('posts.exceptions.wrong_publication_date'));
         }
 
-        $post = $user->posts()->create([
+        $post = auth()->user()->posts()->create([
             'title' => $request->title,
             'main_content' => $request->main_content,
             'publication_date' => $request->publication_date ? $request->publication_date : now(),
@@ -119,6 +117,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        $this->authorize('view', $post);
+
         return new PostShowResource($post);
     }
 
@@ -135,6 +135,8 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
+        $this->authorize('update', $post);
+
         if ($request->publication_date < now()) {
             throw new \DateException(__('posts.exceptions.wrong_publication_date'));
         }
@@ -159,6 +161,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $this->authorize('delete', $post);
+
         $post->delete();
 
         return response(__('posts.messages.delete'));
