@@ -19,12 +19,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // Users
-Route::post('users', [\App\Http\Controllers\API\User\StoreUserController::class, 'store']);
-Route::put('users/{user?}', [\App\Http\Controllers\API\User\UpdateUserController::class, 'update']);
-Route::get('users', [\App\Http\Controllers\API\User\ListUserController::class, 'list']);
-Route::delete('users/{user?}', [\App\Http\Controllers\API\User\DeleteUserController::class, 'delete']);
-Route::put('user/change-password/{user?}', [\App\Http\Controllers\API\User\ChangePasswordUserController::class, 'changePassword']);
+Route::apiResources([
+    // Users
+    '/users' => \App\Http\Controllers\API\User\UserController::class,
 
-// Blogs
-Route::apiResource('/posts', \App\Http\Controllers\Post\PostController::class);
+    // Posts
+    '/posts' => \App\Http\Controllers\Post\PostController::class
+]);
+
 

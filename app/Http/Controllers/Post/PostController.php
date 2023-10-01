@@ -86,6 +86,10 @@ class PostController extends Controller
     {
         $user = auth()->user();
 
+        if ($request->publication < now()) {
+            throw new \DateException('تاریخ انتشار وارد شده نباید کمتر از تاریخ حال باشد.');
+        }
+
         $post = $user->posts()->create([
             'title' => $request->title,
             'main_content' => $request->main_content,
