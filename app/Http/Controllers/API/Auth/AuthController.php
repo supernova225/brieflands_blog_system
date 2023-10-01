@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class AuthController extends Controller
      * @bodyParam password_confirmation string required
      *
      */
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
         $user = User::create([
             'first_name' => $request->first_name,
