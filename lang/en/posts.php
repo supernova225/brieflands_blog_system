@@ -7,5 +7,6 @@ return [
     ],
     'exceptions' => [
         'wrong_publication_date' => 'The date entered is incorrect',
+        'post_not_available' => 'The desired post is not available'
     ]
 ];

@@ -14,17 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 // Register
 Route::post('/register', [\App\Http\Controllers\API\Auth\AuthController::class, 'register'])->name('register');
 
 // Login
 Route::post('/login', [\App\Http\Controllers\API\Auth\AuthController::class, 'login'])->name('login');
 
-
+// Published Posts
+Route::apiResource('/published-posts', \App\Http\Controllers\API\Post\PublishPostController::class)->only(['index', 'show']);
 
 Route::middleware('auth:sanctum')->group(function () {
     // Logout

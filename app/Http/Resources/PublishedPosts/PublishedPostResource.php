@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Posts;
+namespace App\Http\Resources\PublishedPosts;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PostResource extends JsonResource
+class PublishedPostResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -22,9 +22,7 @@ class PostResource extends JsonResource
             ],
             'id' => $this->id,
             'title' => $this->title,
-            'main_content' => $this->main_content,
             'publication_date' => $this->publication_date,
-            'is_published' => $this->is_published,
         ];
     }
 }

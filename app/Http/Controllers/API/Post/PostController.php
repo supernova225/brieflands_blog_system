@@ -43,7 +43,18 @@ class PostController extends Controller
             ?
             $query = Post::query()
             :
-            $query = Post::where('user_id', auth()->id());;
+            $query = Post::where('user_id', auth()->id());
+
+        if (auth()->user()->is_admin == 1 && request('author_name')) {
+            $authorName = request('author_name');
+
+            $query
+                ->whereHas('user', function ($query) use ($authorName) {
+                    $query
+                        ->where('first_name', 'like', '%' . $authorName . '%')
+                        ->orWhere('last_name', 'like', '%' . $authorName . '%');
+                });
+        }
 
         if (\request('search')) {
             $query->where('title', 'like', '%' . \request('search') . '%');
