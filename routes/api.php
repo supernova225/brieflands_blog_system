@@ -23,7 +23,7 @@ Route::apiResources([
     '/users' => \App\Http\Controllers\API\User\UserController::class,
 
     // Posts
-    '/posts' => \App\Http\Controllers\Post\PostController::class
+    '/posts' => \App\Http\Controllers\API\Post\PostController::class
 ]);
 
 

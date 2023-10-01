@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Post;
+namespace App\Http\Controllers\API\Post;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\StorePostRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
 use App\Http\Resources\Posts\PostCollection;
+use App\Http\Resources\Posts\PostResource;
 use App\Http\Resources\Posts\PostShowResource;
 use App\Models\Post;
-use Illuminate\Http\Request;
 
 /**
  * @group Posts
@@ -21,8 +21,8 @@ class PostController extends Controller
      * @queryParam limit integer
      * @queryParam page integer
      * @queryParam search string
-     * @queryParam publication_from date
-     * @queryParam publication_to date
+     * @queryParam publication_date_from date
+     * @queryParam publication_date_to date
      * @queryParam is_published integer
      *
      */
@@ -49,16 +49,16 @@ class PostController extends Controller
             $query->where('title', 'like', '%' . \request('search') . '%');
         }
 
-        if (\request('publication_from')) {
-            $publicationFrom = \request('publication_from');
+        if (\request('publication_date_from')) {
+            $publicationDateFrom = \request('publication_date_from');
 
-            $query->where('publication', '>=', $publicationFrom);
+            $query->where('publication_date', '>=', $publicationDateFrom);
         }
 
-        if (\request('publication_to')) {
-            $publicationTo = \request('publication_to');
+        if (\request('publication_date_to')) {
+            $publicationDateTo = \request('publication_date_to');
 
-            $query->where('publication', '<=', $publicationTo);
+            $query->where('publication_date', '<=', $publicationDateTo);
         }
 
         if (\request('is_published')) {
@@ -86,18 +86,18 @@ class PostController extends Controller
     {
         $user = auth()->user();
 
-        if ($request->publication < now()) {
+        if ($request->publication_date < now()) {
             throw new \DateException('تاریخ انتشار وارد شده نباید کمتر از تاریخ حال باشد.');
         }
 
         $post = $user->posts()->create([
             'title' => $request->title,
             'main_content' => $request->main_content,
-            'publication' => $request->publication ? $request->publication : now(),
-            'is_published' => $request->publication ? 0 : 1,
+            'publication_date' => $request->publication_date ? $request->publication_date : now(),
+            'is_published' => $request->publication_date ? 0 : 1,
         ]);
 
-        return $post;
+        return new PostResource($post);
     }
 
     /**
@@ -118,7 +118,7 @@ class PostController extends Controller
      *
      * @bodyParam title string required
      * @bodyParam main_content string required
-     * @bodyParam publication date
+     * @bodyParam publication_date date
      *
      *
      *
@@ -129,8 +129,8 @@ class PostController extends Controller
         $post->update([
             'title' => $request->title,
             'main_content' => $request->main_content,
-            'publication' => $request->publication ? $request->publication : $post->publication,
-            'is_published' => $request->publication ? 0 : 1,
+            'publication_date' => $request->publication_date ? $request->publication_date : $post->publication,
+            'is_published' => $request->publication_date ? 0 : 1,
         ]);
 
         return response(['message' => 'پست مورد نظر ویرایش شد.']);

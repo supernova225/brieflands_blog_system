@@ -24,7 +24,7 @@ class UpdatePostRequest extends FormRequest
         return [
             'title' => 'required|string|max:225',
             'main_content' => 'required|string',
-            'publication' => 'nullable|date_format:Y-m-d H:i:s'
+            'publication_date' => 'nullable|date_format:Y-m-d'
         ];
     }
 }

@@ -17,14 +17,14 @@ class PostFactory extends Factory
      */
     public function definition(): array
     {
-        $publication = fake()->date('Y-m-d H-i-s');
+        $publicationDate = fake()->date('Y-m-d H-i-s');
 
         return [
             'user_id' => User::all()->random()->id,
             'title' => fake()->words(4, true),
             'main_content' => fake()->paragraph(),
-            'publication' => $publication,
-            'is_published' => $publication >= now() ? 0 : 1,
+            'publication_date' => $publicationDate,
+            'is_published' => $publicationDate >= now() ? 0 : 1,
         ];
     }
 }

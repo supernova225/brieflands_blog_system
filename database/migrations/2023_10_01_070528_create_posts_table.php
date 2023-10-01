@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignId('user_id')->nullable();
             $table->string('title')->nullable();
             $table->text('main_content')->nullable();
-            $table->timestamp('publication')->nullable();
+            $table->timestamp('publication_date')->nullable();
             $table->boolean('is_published')->default(0);
             $table->timestamps();
         });
