@@ -12,9 +12,9 @@ return new class extends Migration {
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable();
-            $table->string('title')->nullable();
-            $table->text('main_content')->nullable();
+            $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->string('title');
+            $table->text('main_content');
             $table->timestamp('publication_date')->nullable();
             $table->boolean('is_published')->default(0);
             $table->timestamps();
