@@ -21,7 +21,7 @@ class PostPolicy
      */
     public function view(User $user, Post $post)
     {
-        return ($user->role == 'admin' || $user->id == $post->user_id)
+        return ($user->role == 'admin' || $user->id == $post->author_id)
             ? Response::allow()
             : Response::deny(__('posts.exceptions.access_deny'));
     }
@@ -39,7 +39,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post)
     {
-        return ($user->role == 'admin' || $user->id == $post->user_id)
+        return ($user->role == 'admin' || $user->id == $post->author_id)
             ? Response::allow()
             : Response::deny(__('posts.exceptions.access_deny'));
     }
@@ -49,7 +49,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post)
     {
-        return ($user->role == 'admin' || $user->id == $post->user_id)
+        return ($user->role == 'admin' || $user->id == $post->author_id)
             ? Response::allow()
             : Response::deny(__('posts.exceptions.access_deny'));
     }

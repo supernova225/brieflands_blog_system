@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
@@ -12,7 +13,7 @@ use Mehradsadeghi\FilterQueryString\FilterQueryString;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, FilterQueryString;
+    use HasApiTokens, HasFactory, Notifiable, FilterQueryString, SoftDeletes;
 
     protected $table = 'users';
 
@@ -57,6 +58,6 @@ class User extends Authenticatable
 
     public function posts()
     {
-        return $this->hasMany(Post::class, 'user_id', 'id');
+        return $this->hasMany(Post::class, 'author_id', 'id');
     }
 }

@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Mehradsadeghi\FilterQueryString\FilterQueryString;
 
 class Post extends Model
 {
-    use HasFactory, FilterQueryString;
+    use HasFactory, FilterQueryString, SoftDeletes;
 
     protected $table = 'posts';
 

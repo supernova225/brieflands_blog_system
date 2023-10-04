@@ -28,11 +28,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        auth()->user()->is_admin == 1
-            ?
-            $query = Post::filter()
-            :
-            $query = Post::filter()->where('author_id', auth()->id());
+        // dd(\Log::getLogger());
+        auth()->user()->role == 'admin'
+            ? $query = Post::filter()
+            : $query = Post::filter()->where('author_id', auth()->id());
 
         $limit = \request('limit', 10);
 

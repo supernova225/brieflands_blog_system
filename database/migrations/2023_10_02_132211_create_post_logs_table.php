@@ -12,12 +12,12 @@ return new class extends Migration {
     {
         Schema::create('post_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('modifier_id')->references('id')->on('users');
+            $table->foreignId('modifier_id')->nullable();
             $table->string('modifier_first_name');
             $table->string('modifier_last_name');
             $table->enum('modify_type', ['update', 'delete']);
-            $table->foreignId('post_id')->references('id')->on('posts');
-            $table->foreignId('author_id')->references('id')->on('users');
+            $table->foreignId('post_id')->nullable();
+            $table->foreignId('author_id')->nullable();
             $table->string('author_first_name');
             $table->string('author_last_name');
             $table->softDeletes();

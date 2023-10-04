@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->text('main_content');
             $table->timestamp('publication_date')->nullable();
             $table->boolean('is_published')->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
