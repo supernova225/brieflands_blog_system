@@ -32,8 +32,11 @@ Route::middleware('auth:sanctum')->group(function () {
         '/users' => \App\Http\Controllers\API\User\UserController::class,
 
         // Posts
-        '/posts' => \App\Http\Controllers\API\Post\PostController::class
+        '/posts' => \App\Http\Controllers\API\Post\PostController::class,
     ]);
+
+    // Post Logs
+    Route::apiResource('/post-logs', \App\Http\Controllers\API\PostLog\PostLogController::class)->only('index');
 });
 
 

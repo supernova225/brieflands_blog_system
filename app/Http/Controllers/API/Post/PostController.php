@@ -43,17 +43,28 @@ class PostController extends Controller
             ?
             $query = Post::query()
             :
-            $query = Post::where('user_id', auth()->id());
+            $query = Post::where('author_id', auth()->id());
+
+
+        $cloneQuery = clone $query;
+
+        $posts = $query->filter()->get();
+
+
 
         if (auth()->user()->is_admin == 1 && request('author_name')) {
             $authorName = request('author_name');
 
-            $query
-                ->whereHas('user', function ($query) use ($authorName) {
-                    $query
-                        ->where('first_name', 'like', '%' . $authorName . '%')
-                        ->orWhere('last_name', 'like', '%' . $authorName . '%');
-                });
+            $query->whereHas('user', function ($query) use ($authorName) {
+                $query->select('first_name')->filter();
+            });
+
+            // $query
+            //     ->whereHas('user', function ($query) use ($authorName) {
+            //         $query
+            //             ->where('first_name', 'like', '%' . $authorName . '%')
+            //             ->orWhere('last_name', 'like', '%' . $authorName . '%');
+            //     });
         }
 
         if (\request('search')) {
@@ -78,7 +89,7 @@ class PostController extends Controller
 
         $cloneQuery = clone $query;
 
-        $posts = $query->take($limit)->skip(($page - 1) * $limit)->get();
+        $posts = $query->orderBy('id', 'asc')->take($limit)->skip(($page - 1) * $limit)->get();
 
         return [$posts, $cloneQuery];
     }

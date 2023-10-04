@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Mehradsadeghi\FilterQueryString\FilterQueryString;
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, FilterQueryString;
 
     protected $table = 'posts';
 
@@ -18,8 +19,14 @@ class Post extends Model
         'is_published',
     ];
 
+    protected $filters = [
+        'title',
+        'publication_date',
+        'is_published'
+    ];
+
     public function user()
     {
-        return $this->belongsTo(User::class, 'users_id', 'id');
+        return $this->belongsTo(User::class, 'author_id', 'id');
     }
 }

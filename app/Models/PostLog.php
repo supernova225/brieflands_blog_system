@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Mehradsadeghi\FilterQueryString\FilterQueryString;
 
 class PostLog extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, FilterQueryString;
 
     protected $table = 'post_logs';
 
@@ -16,10 +17,20 @@ class PostLog extends Model
         'modifier_id',
         'modifier_first_name',
         'modifier_last_name',
+        'modify_type',
         'post_id',
         'author_id',
         'author_first_name',
-        'author_last_name'
+        'author_last_name',
+    ];
+
+    protected $filters = [
+        'modifier_first_name',
+        'modifier_last_name',
+        'modify_type',
+        'post_id',
+        'author_first_name',
+        'author_last_name',
     ];
 
     public function author()

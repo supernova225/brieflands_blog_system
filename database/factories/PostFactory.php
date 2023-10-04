@@ -20,7 +20,7 @@ class PostFactory extends Factory
         $publicationDate = fake()->date('Y-m-d H-i-s');
 
         return [
-            'user_id' => User::all()->random()->id,
+            'author_id' => User::all()->random()->id,
             'title' => fake()->words(4, true),
             'main_content' => fake()->paragraph(),
             'publication_date' => $publicationDate,
