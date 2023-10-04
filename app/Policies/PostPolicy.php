@@ -21,15 +21,9 @@ class PostPolicy
      */
     public function view(User $user, Post $post)
     {
-        return (
-            $user->is_admin == 1
-            ||
-            $user->id == $post->user_id
-        )
-            ?
-            Response::allow()
-            :
-            Response::deny(__('posts.exceptions.access_deny'));
+        return ($user->role == 'admin' || $user->id == $post->user_id)
+            ? Response::allow()
+            : Response::deny(__('posts.exceptions.access_deny'));
     }
 
     /**
@@ -45,15 +39,9 @@ class PostPolicy
      */
     public function update(User $user, Post $post)
     {
-        return (
-            $user->is_admin == 1
-            ||
-            $user->id == $post->user_id
-        )
-            ?
-            Response::allow()
-            :
-            Response::deny(__('posts.exceptions.access_deny'));
+        return ($user->role == 'admin' || $user->id == $post->user_id)
+            ? Response::allow()
+            : Response::deny(__('posts.exceptions.access_deny'));
     }
 
     /**
@@ -61,15 +49,9 @@ class PostPolicy
      */
     public function delete(User $user, Post $post)
     {
-        return (
-            $user->is_admin == 1
-            ||
-            $user->id == $post->user_id
-        )
-            ?
-            Response::allow()
-            :
-            Response::deny(__('posts.exceptions.access_deny'));
+        return ($user->role == 'admin' || $user->id == $post->user_id)
+            ? Response::allow()
+            : Response::deny(__('posts.exceptions.access_deny'));
     }
 
     /**

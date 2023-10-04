@@ -15,10 +15,10 @@ use Illuminate\Http\Request;
  */
 class UserController extends Controller
 {
-    // public function __construct()
-    // {
-    //     // $this->authorizeResource(User::class, 'user');
-    // }
+    public function __construct()
+    {
+        $this->authorizeResource(User::class, 'user');
+    }
 
     /**
      * Users List
@@ -32,7 +32,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        // $this->authorize('viewAny');
+        $this->authorize('viewAny', User::class);
 
         $limit = \request('limit', 10);
 
@@ -77,7 +77,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        // $this->authorize('view');
+        $this->authorize('view', $user);
 
         return new UserResource($user);
     }
@@ -92,7 +92,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        // $this->authorize('update', $user);
+        $this->authorize('update', $user);
 
         $user->update([
             'first_name' => $request->first_name,
@@ -100,7 +100,7 @@ class UserController extends Controller
             'email' => $request->email,
         ]);
 
-        return response(['message' => 'کاربر با موفقیت ویرایش شد.']);
+        return response(['message' => __('users.messages.update')]);
     }
 
     /**
@@ -111,10 +111,10 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        // $this->authorize('delete', $user);
+        $this->authorize('delete', $user);
 
         $user->delete();
 
-        return response(['message' => 'کاربر مورد نظر با موفقیت حذف شد.']);
+        return response(['message' => __('users.messages.delete')]);
     }
 }
