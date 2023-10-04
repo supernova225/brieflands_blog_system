@@ -15,10 +15,10 @@ use Illuminate\Http\Request;
  */
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorizeResource(User::class, 'user');
-    }
+    // public function __construct()
+    // {
+    //     // $this->authorizeResource(User::class, 'user');
+    // }
 
     /**
      * Users List
@@ -29,47 +29,22 @@ class UserController extends Controller
      * @queryParam is_admin string Enum: admin, user
      * @queryParam email email
      *
-     *
      */
     public function index()
     {
-        $this->authorize('viewAny');
+        // $this->authorize('viewAny');
 
         $limit = \request('limit', 10);
 
         $page = \request('page', 1);
 
-        [$users, $cloneQuery] = $this->getUsers($limit, $page);
-
-        return new UserCollection($users, $limit, $page, $cloneQuery);
-    }
-
-    private function getUsers($limit, $page)
-    {
-        $query = User::query();
-
-        if (\request('search')) {
-
-            $search = \request('search');
-
-            $query
-                ->where('first_name', '%' . $search . '%')
-                ->orWhere('last_name', '%' . $search . '%');
-        }
-
-        if (\request('is_admin')) {
-            $query->where('is_admin', \request('is_admin'));
-        }
-
-        if (\request('email')) {
-            $query->where('email', '%' . \request('email') . '%');
-        }
+        $query = User::filter();
 
         $cloneQuery = clone $query;
 
         $users = $query->take($limit)->skip(($page - 1) * $limit)->get();
 
-        return [$users, $cloneQuery];
+        return new UserCollection($users, $limit, $page, $cloneQuery);
     }
 
     /**
@@ -80,7 +55,6 @@ class UserController extends Controller
      * @bodyParam email string required
      * @bodyParam password string required
      * @bodyParam password_confirmation string required
-     *
      *
      */
     public function store(StoreUserRequest $request)
@@ -100,11 +74,10 @@ class UserController extends Controller
      *
      * @urlParam user integer required
      *
-     *
      */
     public function show(User $user)
     {
-        $this->authorize('view');
+        // $this->authorize('view');
 
         return new UserResource($user);
     }
@@ -116,11 +89,10 @@ class UserController extends Controller
      * @bodyParam last_name string required
      * @bodyParam email string required
      *
-     *
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $this->authorize('update', $user);
+        // $this->authorize('update', $user);
 
         $user->update([
             'first_name' => $request->first_name,
@@ -136,11 +108,10 @@ class UserController extends Controller
      *
      * @urlParam user
      *
-     *
      */
     public function destroy(User $user)
     {
-        $this->authorize('delete', $user);
+        // $this->authorize('delete', $user);
 
         $user->delete();
 

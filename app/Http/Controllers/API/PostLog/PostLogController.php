@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\PostLog;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PostLogs\PostLogCollection;
 use App\Models\PostLog;
 use Illuminate\Http\Request;
 
@@ -16,26 +17,25 @@ class PostLogController extends Controller
      *
      * @queryParam modifier_first_name string
      * @queryParam modifier_last_name string
-     * @queryParam modify_type
-     * @queryParam post_id
+     * @queryParam modify_type string The modify type value is between update and delete
+     * @queryParam post_id integer
      * @queryParam author_first_name string
      * @queryParam author_last_name string
-     *
-     *
-     *
-     *
-     *
-     *
      *
      */
     public function index()
     {
+        $limit = \request('limit', 10);
+
+        $page = \request('page', 1);
+
         $query = PostLog::filter();
 
+        $cloneQuery = clone $query;
 
+        $postLogs = $query->take($limit)->skip(($page - 1) * $limit)->get();
 
-        return $query->get();
-
+        return new PostLogCollection($postLogs, $limit, $page, $cloneQuery);
     }
 
     /**

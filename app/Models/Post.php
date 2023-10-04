@@ -26,7 +26,7 @@ class Post extends Model
         'is_published'
     ];
 
-    public function user()
+    public function author()
     {
         return $this->belongsTo(User::class, 'author_id', 'id');
     }

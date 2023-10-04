@@ -16,15 +16,15 @@ class PostResource extends JsonResource
     {
         return [
             'author' => [
-                'id' => $this->user?->id,
-                'first_name' => $this->user?->first_name,
-                'last_name' => $this->user?->last_name,
+                'id' => $this->author?->id,
+                'first_name' => $this->author?->first_name,
+                'last_name' => $this->author?->last_name,
             ],
             'id' => $this->id,
             'title' => $this->title,
             'main_content' => $this->main_content,
             'publication_date' => $this->publication_date,
-            'is_published' => $this->is_published,
+            'is_published' => config('settings.posts.' . $this->is_published),
         ];
     }
 }

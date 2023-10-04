@@ -28,70 +28,21 @@ class PostController extends Controller
      */
     public function index()
     {
+        auth()->user()->is_admin == 1
+            ?
+            $query = Post::filter()
+            :
+            $query = Post::filter()->where('author_id', auth()->id());
+
         $limit = \request('limit', 10);
 
         $page = \request('page', 1);
-
-        [$posts, $cloneQuery] = $this->getPosts($limit, $page);
-
-        return new PostCollection($posts, $limit, $page, $cloneQuery);
-    }
-
-    private function getPosts($limit, $page)
-    {
-        auth()->user()->is_admin == 1
-            ?
-            $query = Post::query()
-            :
-            $query = Post::where('author_id', auth()->id());
-
-
-        $cloneQuery = clone $query;
-
-        $posts = $query->filter()->get();
-
-
-
-        if (auth()->user()->is_admin == 1 && request('author_name')) {
-            $authorName = request('author_name');
-
-            $query->whereHas('user', function ($query) use ($authorName) {
-                $query->select('first_name')->filter();
-            });
-
-            // $query
-            //     ->whereHas('user', function ($query) use ($authorName) {
-            //         $query
-            //             ->where('first_name', 'like', '%' . $authorName . '%')
-            //             ->orWhere('last_name', 'like', '%' . $authorName . '%');
-            //     });
-        }
-
-        if (\request('search')) {
-            $query->where('title', 'like', '%' . \request('search') . '%');
-        }
-
-        if (\request('publication_date_from')) {
-            $publicationDateFrom = \request('publication_date_from');
-
-            $query->where('publication_date', '>=', $publicationDateFrom);
-        }
-
-        if (\request('publication_date_to')) {
-            $publicationDateTo = \request('publication_date_to');
-
-            $query->where('publication_date', '<=', $publicationDateTo);
-        }
-
-        if (\request('is_published')) {
-            $query->where('is_published', \request('is_published'));
-        }
 
         $cloneQuery = clone $query;
 
         $posts = $query->orderBy('id', 'asc')->take($limit)->skip(($page - 1) * $limit)->get();
 
-        return [$posts, $cloneQuery];
+        return new PostCollection($posts, $limit, $page, $cloneQuery);
     }
 
     /**
@@ -100,8 +51,6 @@ class PostController extends Controller
      * @bodyParam title string required
      * @bodyParam main_content string required
      * @bodyParam publication date
-     *
-     *
      *
      */
     public function store(StorePostRequest $request)
@@ -138,7 +87,6 @@ class PostController extends Controller
      * @bodyParam main_content string required
      * @bodyParam publication_date date
      *
-     *
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
@@ -162,8 +110,6 @@ class PostController extends Controller
      * Posts Delete
      *
      * @urlParam post integer required
-     *
-     *
      *
      */
     public function destroy(Post $post)

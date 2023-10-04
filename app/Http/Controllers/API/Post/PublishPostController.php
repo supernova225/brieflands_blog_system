@@ -29,36 +29,13 @@ class PublishPostController extends Controller
 
         $page = \request('page', 1);
 
-        [$posts, $cloneQuery] = $this->getPublishedPosts($limit, $page);
-
-        return new PublishedPostCollection($posts, $limit, $page, $cloneQuery);
-    }
-
-    private function getPublishedPosts($limit, $page)
-    {
-        $query = Post::where('is_published', 1);
-
-        if (\request('search')) {
-            $query->where('title', 'like', '%' . \request('search') . '%');
-        }
-
-        if (\request('publication_date_from')) {
-            $publicationDateFrom = \request('publication_date_from');
-
-            $query->where('publication_date', '>=', $publicationDateFrom);
-        }
-
-        if (\request('publication_date_to')) {
-            $publicationDateTo = \request('publication_date_to');
-
-            $query->where('publication_date', '<=', $publicationDateTo);
-        }
+        $query = Post::filter()->where('is_published', 1);
 
         $cloneQuery = clone $query;
 
         $posts = $query->take($limit)->skip(($page - 1) * $limit)->get();
 
-        return [$posts, $cloneQuery];
+        return new PublishedPostCollection($posts, $limit, $page, $cloneQuery);
     }
 
     /**
