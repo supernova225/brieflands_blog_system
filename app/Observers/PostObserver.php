@@ -23,18 +23,6 @@ class PostObserver
         $modifierUser = auth()->user();
 
         \Log::info("User with name {$modifierUser->first_name} {$modifierUser->last_name} with ID {$modifierUser->id} updated post with ID {$post->id} and author {$post->author->first_name} {$post->author->first_name}");
-
-
-        // $postLog = PostLog::create([
-        //     'modifier_id' => $modifierUser->id,
-        //     'modifier_first_name' => $modifierUser->first_name,
-        //     'modifier_last_name' => $modifierUser->last_name,
-        //     'modify_type' => 'update',
-        //     'post_id' => $post->id,
-        //     'author_id' => $post->author->id,
-        //     'author_first_name' => $post->author->first_name,
-        //     'author_last_name' => $post->author->last_name,
-        // ]);
     }
 
     /**
