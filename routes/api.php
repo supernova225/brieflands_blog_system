@@ -34,9 +34,6 @@ Route::middleware('auth:sanctum')->group(function () {
         // Posts
         '/posts' => \App\Http\Controllers\API\Post\PostController::class,
     ]);
-
-    // Post Logs
-    Route::apiResource('/post-logs', \App\Http\Controllers\API\PostLog\PostLogController::class)->only('index');
 });
 
 
