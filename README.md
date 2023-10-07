@@ -26,3 +26,10 @@ In this project, "[Tests](https://laravel.com/docs/10.x/testing#main-content)" h
 
 For the security of the system, the authentication package "[Sanctum](https://laravel.com/docs/10.x/sanctum#main-content)" has been used, and due to the system's "Restful API", token has been used for authentication in order to provide a safe environment for creating and publishing posts.
 
+## Logging
+
+In this system, Laravel "logging" is used so that post changes, whether deleted or edited, and the user applying these changes are stored in the Laravel log system.
+
+## Log Viewer
+
+In this system, the "Log Viewer" package is used to display the system logs to the user with a suitable UI.
